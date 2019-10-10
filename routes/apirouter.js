@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-//var USER = require("../database/users");
+var USER = require("../database/users");
 
 router.post('/user', async(req, res) => {
 var params = req.body;
