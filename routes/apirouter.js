@@ -1,14 +1,34 @@
 var express = require('express');
 var router = express.Router();
 var USER = require("../database/users");
+var valid = require('../utils/valid')
 
 router.post('/user', async(req, res) => {
 var params = req.body;
 params["registerdate"] = new Date();
+
+if(!valid.checkEmail(params.email))
+    {
+      res.status(300).json({
+          msn: "campo email no valido"
+      });
+      return;
+
+    }
+if(!valid.checkPassword(params.password))
+        {
+          res.status(300).json({
+              msn: "campo password no valido"
+          });
+          return;
+
+        }
+
 var users = new USER(params);
 var result = await users.save();
 res.status(200).json(result);
 });
+
 
 
 router.get("/user", (req, res) => {
